@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <title>上传file属性</title>
+    <script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+</head>
+
+<body>
+    <input id="input-file" class="upload" type="file" value="">
+    <img src="" alt="">
+</body>
+<script>
+    $(function() {
+        $('.upload').change(function() {
+            var oFReader = new FileReader();
+            var file = document.getElementById('input-file').files[0];
+            const url = oFReader.readAsDataURL(file);
+
+            function getObjectURL(file) {
+                var url = " ";
+                if (window.createObjectURL != undefined) {
+                    url = window.createObjectURL(file);
+                } else if (window.URL != undefined) {
+                    url = window.URL.createObjectURL(file);
+                } else if (window.webkitURL != undefined) {
+                    url = window.webkitURL.createObjectURL(file);
+                }
+                return url;
+            }
+            var objURL = getObjectURL(file);
+            console.log(objURL);
+            oFReader.onloadend = function(oFRevent) {
+                var src = oFRevent.target.result;
+                console.log(src);
+                $('img').attr('src', src);
+            }
+        })
+    })
+</script>
+
+</html>
